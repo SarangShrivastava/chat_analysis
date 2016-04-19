@@ -1,6 +1,8 @@
 import csv
 import random
 import math
+import csv
+from main2 import compute_features
  
 def loadCsv(filename):
 	lines = csv.reader(open(filename, "rb"))
@@ -17,7 +19,7 @@ def splitDataset(dataset, splitRatio):
 		index = random.randrange(len(copy))
 		trainSet.append(copy.pop(index))
 	return [trainSet, copy]
- 
+    
 def separateByClass(dataset):
 	separated = {}
 	for i in range(len(dataset)):
@@ -46,7 +48,7 @@ def summarizeByClass(dataset):
 	for classValue, instances in separated.iteritems():
 		summaries[classValue] = summarize(instances)
 	return summaries
- 
+    
 def calculateProbability(x, mean, stdev):
 	if stdev==0:
 		stdev=0.00000001
@@ -71,7 +73,7 @@ def predict(summaries, inputVector):
 			bestProb = probability
 			bestLabel = classValue
 	return bestLabel
- 
+    
 def getPredictions(summaries, testSet):
 	predictions = []
 	for i in range(len(testSet)):
@@ -88,15 +90,76 @@ def getAccuracy(testSet, predictions):
  
 def main():
 	filename = './package/train_1.csv'
-	splitRatio = 0.50	
+	splitRatio = 1
 	dataset = loadCsv(filename)
 	trainingSet, testSet = splitDataset(dataset, splitRatio)
-	print('Split {0} rows into train={1} and test={2} rows').format(len(dataset), len(trainingSet), len(testSet))
+	#print('Split {0} rows into train={1} and test={2} rows').format(len(dataset), len(trainingSet), len(testSet))
 	# prepare model
 	summaries = summarizeByClass(trainingSet)
-	# test model
-	predictions = getPredictions(summaries, testSet)
-	accuracy = getAccuracy(testSet, predictions)
-	print('Accuracy: {0}%').format(accuracy)
- 
+	#type(summaries)
+	#print('Summary by class value: {0}').format(summaries)
+	
+	testVar = raw_input("Write a message.\n")
+	testVar = ": "+ testVar
+	testVar	= "\n"+ testVar
+	with open('./package/test_final.txt', 'w') as the_file:
+		the_file.write(testVar)
+
+	#print "hey"
+	compute_features()
+
+	lines = csv.reader(open('./package/training_set_3.csv', "rb"))
+	dataset = list(lines)
+	for i in range(len(dataset)):
+		if i==1:
+			dataset[i] = [float(x) for x in dataset[i]]
+	
+	dataset.pop(0)	
+
+	print 'These are the feature values that we have calculated for you input\n'
+
+	datas = dataset[0]
+	print datas
+	
+	for idx, a in enumerate(datas):
+		if datas[idx]==0.0:
+			datas[idx]=1
+    	
+
+	#print datas
+	
+	print '\nHere is the result\n\n'
+
+	
+
+	probabilities = calculateClassProbabilities(summaries, datas)
+	#probabilities["aa"] = 12
+	#print probabilities
+
+	proba = probabilities[0.0]
+	probb = probabilities[1.0]
+
+	proba = proba * .5
+	probb = probb * .5
+
+	user1 = proba/(proba+probb)
+	user2 = probb/(proba+probb)
+
+	if(user1 > user2):
+		print "You are imposter"
+	else:
+		print "You are legitimate"
+
+
+	#type(probabilities)
+	'''proba = probabilities['0.0']
+	probb = probabilities['1.0']
+
+	print proba
+	print "\n"
+	print probb
+	'''
+	#print('Probabilities for each class: {0}').format(probabilities)
+
+    
 main()

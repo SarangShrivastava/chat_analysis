@@ -1,27 +1,13 @@
 import os
 from collections import defaultdict
 
-<<<<<<< HEAD
 f = open('acro.txt', 'r')
-=======
-
-f = open('./package/acro.txt', 'r')
-
->>>>>>> b56aad5362778873e2099fb90f9f8f99520fc32d
 f1 = open('1_chat.txt')
 f2 = open('2_chat.txt')
 
 a=0
-<<<<<<< HEAD
 s1 = open('acro_count_1.txt','wb')
 s2 = open('acro_count_2.txt','wb')
-=======
-
-s1 = open('./package/acro_count_1.txt','wb')
-s2 = open('./package/acro_count_2.txt','wb')
-
-
->>>>>>> b56aad5362778873e2099fb90f9f8f99520fc32d
 
 l=[]
  
@@ -47,21 +33,11 @@ for line in f2:
 				d2[w]+=1
 
 for key, value in d1.items():
-<<<<<<< HEAD
 	s1.write(str(key) + " -> " + str(value))
 	s1.write("\n")
 
 for key, value in d2.items():
 	s2.write(str(key) + " -> " + str(value))
-=======
-
-	s1.write(str(key) + " " + str(value))
-	s1.write("\n")
-
-for key, value in d2.items():
-	s2.write(str(key) + " " + str(value))
-
->>>>>>> b56aad5362778873e2099fb90f9f8f99520fc32d
 	s2.write("\n")
 
 
